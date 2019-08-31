@@ -13,8 +13,32 @@
 
       <%= f.submit "ログイン", class: "btn btn-primary btn-block btn-login" %>
     <% end %>
+    <p>アカウント作成は<%= link_to "こちら",  signup_path %>から</p>
+  </div>
+</div>
+
+<% provide(:title, "login") %>
+<h1>ログイン</h1>
+
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <%= form_with(scope: :session, url: login_path, local: true) do |f| %>
+
+      <%= f.label :"メールアドレス", class: "label-login" %>
+      <%= f.email_field :"メールアドレス", class: 'form-control' %>
+
+      <%= f.label :"パスワード", class: "label-login" %>
+      <%= f.password_field :"パスワード", class: 'form-control' %>
+
+      <%= f.label :remember_me, class: "checkbox inline checkbox-login", for: "remember-me" do %>
+        <%= f.check_box :remember_me, id: "remember-me" %>
+        <span>ログイン情報を記憶する</span>
+      <% end %>
+
+      <%= f.submit "ログイン", class: "btn btn-primary btn-block btn-login" %>
+    <% end %>
     <p>
-      ユーザー登録がまだの場合は<%= link_to "こちら", signup_path %>
+      アカウント作成は<%= link_to "こちら", signup_path %>から
     </p>
   </div>
 </div>

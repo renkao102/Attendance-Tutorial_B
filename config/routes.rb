@@ -1,6 +1,15 @@
 Rails.application.routes.draw do
+  
+  get 'posts/base', to: 'posts#base'  
+
+  resources :restaurants, only: [:index, :show] 
+  namespace :admin do
+    resources :restaurants, only: [:base, :index, :new, :create, :show, :edit, :destroy]
+  end
+  
   root 'static_pages#top'
   get '/signup', to: 'users#new'
+
 
   # ログイン機能
   get    '/login', to: 'sessions#new'
@@ -17,3 +26,4 @@ Rails.application.routes.draw do
     resources :attendances, only: :update
   end
 end
+

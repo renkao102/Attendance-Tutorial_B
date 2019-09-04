@@ -1,13 +1,11 @@
-class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy, :edit_basic_info, :update_basic_info]
-  before_action :logged_in_user, only: [:index, :edit, :update, :destroy, :edit_basic_info, :update_basic_info]
-  before_action :correct_user, only: [:edit, :update]
-  before_action :admin_user, only: [:destroy, :edit_basic_info, :update_basic_info]
-  before_action :set_one_month, only: :show
+class Admin::RestaurantsController < ApplicationController
+  before_action :if_not_admin
+  before_action :set_restaurant, only: [:show, :edit, :destroy]
 
+ # ～
+ 
   def index
     @users = User.paginate(page: params[:page])
-    @users = User.where(activated: true).paginate(page: params[:page]).search(params[:search])
   end
 
   def show
@@ -68,4 +66,15 @@ class UsersController < ApplicationController
     def basic_info_params
       params.require(:user).permit(:department, :basic_time, :work_time)
     end
+
+ # ～
+
+  private
+  def if_not_admin
+    redirect_to root_path unless current_user.admin?
+  end
+
+  def set_restaurant
+    @restaurant = Restaurant.find(params[:id])
+  end
 end

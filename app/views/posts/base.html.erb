@@ -1,0 +1,21 @@
+<% provide(:title, "Base") %>
+<% provide(:class_text, 'post--base') %>
+<% provide(:button_text, '修正') %>
+<h1>基本情報の修正</h1>
+
+<div class="row">
+  <div class="col-md-8 col-md-offset-2">
+    <form action="/users/2/tasks" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="O++d9woJEC0+oxBy9ACtK1+SGlHLuIxdjZxYTIFZ0W63vxtmkEcnYSdGVDpibxM7TLmOxlfIB9p3yWjQFpfqDQ==" />
+      
+      
+      <label class="label-form" for="work_time">指定勤務時間</label>
+      <textarea rows="2" class="form-control" name="work[time]">
+    </textarea>
+
+      <label class="label-form" for="basic_time">基本勤務時間</label>
+      <textarea rows="2" class="form-control" name="basic[time]">
+    </textarea>
+    <br>
+      <input type="submit" name="commit" value="更新" class="btn btn-primary btn-block btn-user--edit" data-disable-with="更新" />
+    </form>
+</div>

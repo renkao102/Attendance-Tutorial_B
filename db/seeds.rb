@@ -1,9 +1,9 @@
 # coding: utf-8
 
-User.create!(name: "Sample User",
-             email: "sample@email.com",
-             password: "password",
-             password_confirmation: "password",
+User.create!(name:  "Example User",
+             email: "example@railstutorial.org",
+             password:              "foobar",
+             password_confirmation: "foobar",
              admin: true)
 
 60.times do |n|
@@ -15,3 +15,4 @@ User.create!(name: "Sample User",
                password: password,
                password_confirmation: password)
 end
+

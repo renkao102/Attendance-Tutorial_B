@@ -4,68 +4,94 @@ class UsersController < ApplicationController
   before_action :correct_user, only: [:edit, :update]
   before_action :admin_user, only: [:destroy, :edit_basic_info, :update_basic_info]
   before_action :set_one_month, only: :show
-
+  
   def index
-    @users = User.paginate(page: params[:page])
-    @users = User.where(activated: true).paginate(page: params[:page]).search(params[:search])
+  # 初期表示  
+  def index
+    @users = User.all
+    # パラメータとして名前を受け取っている場合は絞って検索する
+  if params[:name].present?
+    @users = @users.get_by_name params[:name]
   end
-
+    
+    # データを閲覧する画面を表示するためのAction
   def show
+    @user = User.find(params[:id])
+    
     @worked_sum = @attendances.where.not(started_at: nil).count
   end
-
+    
+    # データを作成する画面を表示するためのAction
   def new
     @user = User.new
   end
-
+    
+    # データを更新する画面を表示するためのAction
+  def edit
+    @user = User.find(params[:id])
+  end
+    
+    # データを作成するためのAction
   def create
     @user = User.new(user_params)
-    if @user.save
+    @user.save
+    redirect_to @user
+    
+  if @user.save
       log_in @user
       flash[:success] = '新規作成に成功しました。'
       redirect_to @user
-    else
+  else
       render :new
-    end
+      redirect_to @user and return
   end
-
-  def edit
   end
-
+    
+    # データを更新するためのAction
   def update
-    if @user.update_attributes(user_params)
+    @user = User.find(params[:id])
+    @user.update_attributes(user_params)
+    redirect_to @user
+    
+  if @user.update_attributes(user_params)
       flash[:success] = "ユーザー情報を更新しました。"
       redirect_to @user
-    else
+  else
       render :edit      
-    end
   end
-
+  end
+  end
+  
+    # データを削除するためのAction
   def destroy
+    @user = User.find(params[:id])
+    @user.destroy
+    redirect_to users_path
+    
     @user.destroy
     flash[:success] = "#{@user.name}のデータを削除しました。"
     redirect_to users_url
   end
-
+ 
   def edit_basic_info
   end
 
   def update_basic_info
-    if @user.update_attributes(basic_info_params)
+  if @user.update_attributes(basic_info_params)
       flash[:success] = "#{@user.name}の基本情報を更新しました。"
-    else
+  else
       flash[:danger] = "#{@user.name}の更新は失敗しました。<br>" + @user.errors.full_messages.join("<br>")
-    end
-    redirect_to users_url
+  end
+  end
+      redirect_to users_url
   end
 
-  private
+  
+  def user_params
+    params.require(:user).permit(:name, :email, :department, :password, :password_confirmation)
+  end
 
-    def user_params
-      params.require(:user).permit(:name, :email, :department, :password, :password_confirmation)
-    end
-
-    def basic_info_params
-      params.require(:user).permit(:department, :basic_time, :work_time)
-    end
+  def basic_info_params
+    params.require(:user).permit(:department, :basic_time, :work_time)
+  end
 end

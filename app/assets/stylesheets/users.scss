@@ -14,6 +14,18 @@
 
 /* ユーザー勤怠情報テーブル */
 
+tbody {
+    display: table-row-group;
+    vertical-align: middle;
+    border-color: inherit;
+    border-top-color: inherit;
+    border-right-color: inherit;
+    border-bottom-color: inherit;
+    border-left-color: inherit;
+}
+
+
+
 #table-attendances {
   th {
     vertical-align: middle;
@@ -65,4 +77,10 @@
 .btn {
   margin: 0;
   border-color: #777;
+}
+
+.search {
+  float: right;
+  padding : 0 0 0 0;
+  margin-right : 0;
 }

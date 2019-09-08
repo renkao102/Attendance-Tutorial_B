@@ -17,7 +17,7 @@ class UsersController < ApplicationController
     # データを閲覧する画面を表示するためのAction
   def show
     @user = User.find(params[:id])
-    
+
     @worked_sum = @attendances.where.not(started_at: nil).count
   end
     

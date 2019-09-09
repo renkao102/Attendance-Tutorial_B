@@ -34,17 +34,13 @@ class UsersController < ApplicationController
     # データを作成するためのAction
   def create
     @user = User.new(user_params)
-    @user.save
-    redirect_to @user
-
-  if @user.save
+    if @user.save
       log_in @user
       flash[:success] = '新規作成に成功しました。'
       redirect_to @user
-  else
+    else
       render :new
-      redirect_to @user and return
-  end
+    end
   end
     
     # データを更新するためのAction

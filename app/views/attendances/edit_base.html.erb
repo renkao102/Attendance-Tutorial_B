@@ -1,16 +1,15 @@
 <% provide(:title, "Base") %>
 <% provide(:class_text, 'post--base') %>
 <% provide(:button_text, '修正') %>
-
 <h1>基本情報の更新</h1>
 
 <div class="row">
   <div class="col-md-6 col-md-offset-3">
-
-    
+    <form action="/users/1/tasks" accept-charset="UTF-8" method="post">admin_restaurant_path
     <input name="utf8" type="hidden" value="&#x2713;" />
     <input type="hidden" name="authenticity_token" value="O++d9woJEC0+oxBy9ACtK1+SGlHLuIxdjZxYTIFZ0W63vxtmkEcnYSdGVDpibxM7TLmOxlfIB9p3yWjQFpfqDQ==" />
       
+    <%= f.fields_for "attendances[]", day do |attendance| %>  
     <label class="label-form" for="user_work_time">指定勤務時間</label>
     <input class="form-control" value="" type="time" name="user[work_time]" />
       
@@ -21,11 +20,13 @@
     <input class="form-control" value="" type="time" name="user[basic_time]" />     
       
     </textarea>
-
+    <% end %>
+    
     <br>
       <div class="center">
       <input type="submit" name="commit" value="編集" class="btn btn-primary btn-block btn-login" data-disable-with="編集" />
     </form>
+    
 
 </div>
 

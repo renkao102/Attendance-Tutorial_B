@@ -6,7 +6,8 @@ Rails.application.routes.draw do
   get "User/index" => "users#index"
   get "User/new" => "users#new"
   post "User/create" => "users#create"
-  
+  get "Post/base" => "posts#base"
+
   resources :restaurants, only: [:index, :show] 
   namespace :admin do
   resources :restaurants, only: [:base, :index, :new, :create, :show, :edit, :destroy]
@@ -25,6 +26,8 @@ Rails.application.routes.draw do
       get 'edit_basic_info'
       patch 'update_basic_info'
       get 'attendances/edit_one_month'
+      get 'attendances/edit_tytle' # この行が追加対象です。
+      get 'posts/base'
       patch 'attendances/update_one_month' # この行が追加対象です。
     end
     resources :attendances, only: :update

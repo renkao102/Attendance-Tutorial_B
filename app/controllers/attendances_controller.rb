@@ -32,6 +32,10 @@ class AttendancesController < ApplicationController
   end
   
   def edit_tytle
+    @users = User.paginate(page: params[:page])
+    if params[:name].present?
+    @users = @users.get_by_name params[:name]
+    end
   end
   
   def edit_base

@@ -7,7 +7,7 @@ class Admin::RestaurantsController < ApplicationController
   def index
     @users = User.paginate(page: params[:page])
   end
-
+  
   def show
     @worked_sum = @attendances.where.not(started_at: nil).count
   end
@@ -29,7 +29,7 @@ class Admin::RestaurantsController < ApplicationController
 
   def edit
   end
-
+  
   def update
     if @user.update_attributes(user_params)
       flash[:success] = "ユーザー情報を更新しました。"
@@ -46,6 +46,10 @@ class Admin::RestaurantsController < ApplicationController
   end
 
   def edit_basic_info
+  end
+  
+  def attendance_edit_tytle
+    @users = User.paginate(page: params[:page])
   end
 
   def update_basic_info
@@ -66,6 +70,7 @@ class Admin::RestaurantsController < ApplicationController
     def basic_info_params
       params.require(:user).permit(:department, :basic_time, :work_time)
     end
+
 
  # ～
 

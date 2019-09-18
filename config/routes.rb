@@ -1,12 +1,19 @@
 Rails.application.routes.draw do
   
+  get 'users/base'
+
   get 'posts/base', to: 'posts#base'
   get '/admin', to: 'users#index'
+  get '/admin', to: 'attendance#edit_tytle'
+  get '/admin', to: 'posts#base'
+  get '/admin', to: 'users#show'
   
   get "User/index" => "users#index"
   get "User/new" => "users#new"
+  get "User/show" => "users#show"
   post "User/create" => "users#create"
   get "Post/base" => "posts#base"
+  get "User/base" => "users#base"
 
   resources :restaurants, only: [:index, :show] 
   namespace :admin do
@@ -20,6 +27,7 @@ Rails.application.routes.draw do
   get    '/login', to: 'sessions#new'
   post   '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
+  
 
   resources :users do
     member do

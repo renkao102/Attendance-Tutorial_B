@@ -1,6 +1,6 @@
 class Admin::RestaurantsController < ApplicationController
   before_action :if_not_admin
-  before_action :set_restaurant, only: [:show, :edit, :destroy]
+  before_action :set_restaurant, only: [:index, :show, :base, :edit, :destroy]
 
  # ～
  
@@ -25,6 +25,9 @@ class Admin::RestaurantsController < ApplicationController
     else
       render :new
     end
+  end
+  
+  def base
   end
 
   def edit
@@ -60,6 +63,18 @@ class Admin::RestaurantsController < ApplicationController
     end
     redirect_to users_url
   end
+  
+  def edit_base_info
+  end
+
+  def update_base_info
+    if @user.update_attributes(base_info_params)
+      flash[:success] = "#{@user.name}の基本情報を更新しました。"
+    else
+      flash[:danger] = "#{@user.name}の更新は失敗しました。<br>" + @user.errors.full_messages.join("<br>")
+    end
+    redirect_to users_url
+  end
 
   private
 
@@ -70,6 +85,11 @@ class Admin::RestaurantsController < ApplicationController
     def basic_info_params
       params.require(:user).permit(:department, :basic_time, :work_time)
     end
+    
+    def base_info_params
+      params.require(:user).permit(:department, :basic_time, :work_time)
+    end
+
 
 
  # ～

@@ -1,14 +1,18 @@
 class UsersController < ApplicationController
-  protect_from_forgery #追記  
+  protect_from_forgery #追記
   before_action :set_user, only: [:show, :edit, :update, :destroy, :edit_basic_info, :update_basic_info]
-  before_action :logged_in_user, only: [:edit, :update, :destroy, :edit_basic_info, :update_basic_info]
+  before_action :logged_in_user, only: [:index, :edit, :update, :destroy, :edit_basic_info, :update_basic_info, :base, :update_base]
   before_action :correct_user, only: [:edit, :update]
-  before_action :admin_or_correct_user, only: [:show, :edit, :update]
-  before_action :admin_user, only: [:index, :destroy, :edit_basic_info, :update_basic_info]
+  before_action :admin_user, only: [:destroy, :edit_basic_info, :update_basic_info, :base, :update_base]
   before_action :set_one_month, only: :show
+
+  
 
   def index
     @users = User.paginate(page: params[:page])
+    if params[:name].present?
+    @users = @users.get_by_name params[:name]
+    end
   end
 
   def show
@@ -29,7 +33,7 @@ class UsersController < ApplicationController
       render :new
     end
   end
-
+  
   def edit
   end
 
@@ -59,6 +63,20 @@ class UsersController < ApplicationController
     end
     redirect_to users_url
   end
+  
+  def base
+    @users = User.all
+  end
+  
+  def update_base
+    if @users.update_attributes(base_params)
+      flash[:success] = "基本情報を更新しました。"
+    else
+      flash[:danger] = "更新は失敗しました。<br>" + @users.errors.full_messages.join("<br>")
+    end
+    redirect_to users_url
+  end
+
 
   private
 
@@ -70,24 +88,10 @@ class UsersController < ApplicationController
       params.require(:user).permit(:department, :basic_time, :work_time)
     end
     
-    # ログイン済みユーザーか確認
-    def logged_in_user
-      unless logged_in?
-        store_location
-        flash[:danger] = "ログインしてください。"
-        redirect_to login_url
-      end
+    def base_params
+      params.require(:user).permit(:department, :basic_time, :work_time)
     end
     
-    # 管理者権限、または現在ログインしているユーザーを許可します。
-    def admin_or_correct_user
-      unless current_user?(@user) || current_user.admin?
-        redirect_to(root_url)
-      end
-    end
-        
-    def admin_user
-      redirect_to(root_url) unless current_user.admin?
-    end    
-    
+
 end
+

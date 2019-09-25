@@ -56,15 +56,14 @@
         <td><%= l(day.worked_on, format: :short) %></td>
         <td class='<%= "wday#{day.worked_on.wday}"%>'> <%= %w{日 月 火 水 木 金 土}[day.worked_on.wday] %></td>
         <td><%= l(day.started_at, format: "%H") if day.started_at.present? %></td>
-        <td><%= l(day.started_at, format: "%M") if day.started_at.present? %></td>
+        <td><%= l(day.started_at.floor_to(60*15) , format: "%M") if day.started_at.present? %></td>
         <td>
             <% if (Date.current == day.worked_on) && day.started_at.nil? %>
             <%= link_to "出社", user_attendance_path(@user, day), method: :patch, class: "btn btn-primary btn-attendance" %>
             <% end %>
         </td>
           <td><%= l(day.finished_at, format: "%H") if day.finished_at.present? %></td>
-          <td><%= l(day.finished_at, format: "%M") if day.finished_at.present? %></td>
-
+          <td><%= l(day.finished_at.floor_to(60*15) , format: "%M") if day.finished_at.present? %></td>
           <td>
             <% if (Date.current == day.worked_on) && day.finished_at.nil? %>
             <%= link_to "退社", user_attendance_path(@user, day), method: :patch, class: "btn btn-primary btn-attendance" %>
@@ -72,7 +71,7 @@
           </td>
           <td>
             <% if day.started_at.present? && day.finished_at.present? %>
-            <%= working_times(day.started_at, day.finished_at) %>
+            <%= working_times(day.started_at.floor_to(60*15), day.finished_at.floor_to(60*15)) %>
             <% end %>
           </td>
           <td><%= day.note %></td>
@@ -96,3 +95,4 @@
     </tfoot>    
   </table>
 </div>
+

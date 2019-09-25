@@ -38,7 +38,7 @@ class AttendancesController < ApplicationController
     end
   end
   
-  def edit_base
+  def edit_base_info
   end
 
   def update_one_month

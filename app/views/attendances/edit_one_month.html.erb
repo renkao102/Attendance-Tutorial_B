@@ -18,8 +18,8 @@
         <%= f.fields_for "attendances[]", day do |attendance| %>
         <tr>
           <td><%= l(day.worked_on, format: :short) %></td>
-          <td><%= $days_of_the_week[day.worked_on.wday] %></td>
-          <% if !current_user.admin? && (Date.current < day.worked_on) %>
+          <td class='<%= "wday#{day.worked_on.wday}"%>'> <%= %w{日 月 火 水 木 金 土}[day.worked_on.wday] %></td>
+          <% if day.worked_on > Date.today %>          
             <td><%= attendance.time_field :started_at, readonly: true, class: "form-control" %></td>
             <td><%= attendance.time_field :finished_at, readonly: true, class: "form-control" %></td>
           <% else %>
@@ -28,17 +28,17 @@
           <% end %>
           <td>
             <% if day.started_at.present? && day.finished_at.present? %>
-              <%= working_times(day.started_at, day.finished_at) %>
+              <%= working_times(day.started_at.floor_to(60*15), day.finished_at.floor_to(60*15)) %>
             <% end %>
           </td>
-          <% if !current_user.admin? && (Date.current < day.worked_on) %>
+          <% if day.worked_on > Date.today %>
             <td><%= attendance.text_field :note, readonly: true, class: "form-control" %></td>
           <% else %>
             <td><%= attendance.text_field :note, class: "form-control" %></td>
           <% end %>
         </tr>
-        <% end %>
-        <% end %>
+      <% end %>
+      <% end %>
       </tbody>
     </table>
   </div>

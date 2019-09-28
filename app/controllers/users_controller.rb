@@ -69,10 +69,11 @@ class UsersController < ApplicationController
   end
   
   def update_base
-    if @users.update_attributes(base_params)
+    @users = User.all
+    if @users.update(base_params)
       flash[:success] = "基本情報を更新しました。"
     else
-      flash[:danger] = "更新は失敗しました。<br>" + @users.errors.full_messages.join("<br>")
+      flash[:danger] = "更新は失敗しました。<br>" + @user.errors.full_messages.join("<br>")
     end
     redirect_to users_url
   end
@@ -84,12 +85,12 @@ class UsersController < ApplicationController
       params.require(:user).permit(:name, :email, :department, :password, :password_confirmation)
     end
 
-    def basic_info_params
+    def basic_info_paramss
       params.require(:user).permit(:department, :basic_time, :work_time)
     end
     
     def base_params
-      params.require(:user).permit(:department, :basic_time, :work_time)
+      params.permit(:basic_time, :work_time)
     end
     
 
